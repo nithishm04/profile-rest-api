@@ -4,6 +4,7 @@ from rest_framework import status
 from profile_api import serializers
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
 
 
 from profile_api import models
@@ -86,7 +87,7 @@ class HelloViewSet(viewsets.ViewSet):
 
         return Response({'http_method': 'PUT'})
 
-    def partial_update(self, reuest, pk=None):
+    def partial_update(self, request, pk=None):
 
         return Response({'http_method': 'PATCH'})
 
@@ -100,3 +101,5 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = models.UserProfile.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.UpdateOwnProfile,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name', 'email',)

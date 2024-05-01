@@ -10,12 +10,13 @@ class HelloSerializer(serializers.Serializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
 
+
     class Meta:
         model = models.UserProfile
         fields = ('id', 'email', 'name', 'password')
-        extra_kargs ={
+        extra_kwargs ={
           'password' :{
-              'write only': True,
+              'write_only': True,
               'style':{'input_type': 'paasword'}
           }
         }
@@ -37,3 +38,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
             instance.set_password(password)
 
         return super().update(instance, validated_data)
+
+class ProfileFeedItemSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.ProfileFeedItem
+        fields = ('id','User_profile','status_text','created_on')
+        extra_kwargs = {'User_profile': {'read_only': True}}
